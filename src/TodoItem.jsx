@@ -1,11 +1,36 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Trash2 } from "lucide-react";
-import { PRIORITY_LABEL } from "./constants";
+import { Calendar, Check, Trash2 } from "lucide-react";
+import { CAT, PRIORITY_LABEL } from "./constants";
+import { dueState, formatDue } from "./utils";
 
-export default function TodoItem({ todo: t, onToggle, onDelete, onEdit, onCycle }) {
+function DueBadge({ value, done, onChange }) {
+  const s = dueState(value, done);
+  const cls = { over: "due-over", today: "due-today", later: "due-later", none: "due-later" }[s];
+  const text = s === "over" ? `เกินกำหนด ${formatDue(value)}` : s === "today" ? "วันนี้" : value ? formatDue(value) : "ตั้งวันที่";
+  return (
+    <label
+      className={"relative inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full cursor-pointer " + cls}
+      title="กำหนดส่ง"
+    >
+      <Calendar size={12} />
+      {text}
+      <input
+        type="date"
+        value={value || ""}
+        onChange={(e) => onChange(e.target.value)}
+        onClick={(e) => e.currentTarget.showPicker?.()}
+        aria-label="เลือกวันที่กำหนดส่ง"
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+      />
+    </label>
+  );
+}
+
+export default function TodoItem({ todo: t, onToggle, onDelete, onEdit, onCycle, onDue }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(t.text);
   const inputRef = useRef(null);
+  const cat = CAT[t.category];
 
   useEffect(() => {
     if (editing && inputRef.current) {
@@ -76,6 +101,16 @@ export default function TodoItem({ todo: t, onToggle, onDelete, onEdit, onCycle 
                   {t.text}
                 </span>
               )}
+              <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                <span
+                  className="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full border"
+                  style={{ borderColor: "var(--line)", color: "var(--mute)" }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: cat.color }} />
+                  {cat.label}
+                </span>
+                <DueBadge value={t.dueDate} done={t.done} onChange={(v) => onDue(t.id, v)} />
+              </div>
             </div>
 
             <button

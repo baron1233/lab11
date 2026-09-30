@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root{--bg:#f4f5f7;--card:#fff;--ink:#1d2433;--mute:#7a8296;--line:#e6e9ef;--accent:#2f5bea;
---lo-bg:#e3f5ea;--lo-fg:#1f7a45;--me-bg:#fff1d6;--me-fg:#946200;--hi-bg:#ffe4e4;--hi-fg:#c02a2a;--lo:#3fb56f;--me:#f2a516;--hi:#e5484d;
+--lo-bg:#e3f5ea;--lo-fg:#1f7a45;--me-bg:#fff1d6;--me-fg:#946200;--hi-bg:#ffe4e4;--hi-fg:#c02a2a;--yl-bg:#fff3b0;--yl-fg:#7a5d00;--lo:#3fb56f;--me:#f2a516;--hi:#e5484d;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root{--bg:#12151c;--card:#1b202b;--ink:#eef0f5;--mute:#8d96aa;--line:#2a3140;--accent:#7b9bff;
---lo-bg:#173626;--lo-fg:#6fdc9c;--me-bg:#3b2f10;--me-fg:#f5c451;--hi-bg:#41191c;--hi-fg:#ff8a8e}}
+--lo-bg:#173626;--lo-fg:#6fdc9c;--me-bg:#3b2f10;--me-fg:#f5c451;--hi-bg:#41191c;--hi-fg:#ff8a8e;--yl-bg:#3d3510;--yl-fg:#f7dc5a}}
 
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif}
 
@@ -29,3 +29,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai'
 
 button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.row,.row.in{transition:none;animation:none}}
+
+/* due-date badges */
+.due-over{background:var(--hi-bg);color:var(--hi-fg)}
+.due-today{background:var(--yl-bg);color:var(--yl-fg)}
+.due-later{background:transparent;color:var(--mute);border:1px solid var(--line)}
+input[type="date"]{color-scheme:light dark}
